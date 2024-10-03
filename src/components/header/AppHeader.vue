@@ -1,29 +1,69 @@
 <template lang="html">
   <div class="bg-black">
-    <div class="container mx-auto">
-      <div class="p-4 flex items-center justify-between">
-        <div class="flex items-center gap-8">
-          <button
-            class="hover:bg-gray-900 rounded-full p-3 transition-all duration-200"
-          >
-            <i class="pi pi-align-justify text-xl text-gray-200"></i>
-          </button>
-
-          <button class="flex gap-2 items-center">
-            <i class="pi pi-youtube text-red-700 text-4xl"></i>
-            <h1 class="text-white text-2xl font-semibold">YouTube</h1>
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between py-3">
+        <div class="flex items-center gap-4">
+          <AppSaidBar />
+          <button class="flex items-center gap-2">
+            <i class="pi pi-youtube text-red-600 text-4xl"></i>
+            <h1 class="text-white text-2xl font-bold">YouTube</h1>
           </button>
         </div>
 
-        <div class="header-two"></div>
-        <div class="header-three"></div>
+        <div class="flex items-center w-full max-w-2xl mx-4">
+          <input
+            type="text"
+            placeholder="Введите запрос"
+            class="w-full p-2.5 bg-gray-900 text-white rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <button
+            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-r-full transition-all duration-200"
+          >
+            <i class="pi pi-keyboard text-white"></i>
+          </button>
+          <button
+            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full transition-all duration-200 ml-2"
+          >
+            <i class="pi pi-search text-white"></i>
+          </button>
+          <button
+            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full transition-all duration-200 ml-2"
+          >
+            <i class="pi pi-microphone text-white"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button
+            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full flex items-center gap-2 transition-all duration-200"
+          >
+            <i class="pi pi-plus text-white"></i>
+            <span class="text-white">Создать</span>
+          </button>
+          <button
+            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full transition-all duration-200"
+          >
+            <i class="pi pi-bell text-xl text-white"></i>
+          </button>
+          <button
+            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full transition-all duration-200"
+          >
+            <i class="pi pi-user text-xl text-white"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import AppSaidBar from "./AppSaidBar.vue";
+
+export default {
+  components: {
+    AppSaidBar,
+  },
+};
 </script>
 
 <style lang="css"></style>
