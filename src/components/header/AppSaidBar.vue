@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       v-if="isSidebarOpen"
-      class="fixed top-16 left-0 w-72 h-full bg-black text-white shadow-lg transition-transform duration-500 ease-in-out z-50"
+      class="fixed top-16 left-0 w-60 h-full bg-black text-white shadow-lg transition-transform duration-500 ease-in-out z-50"
       :class="{
         '-translate-x-full': !isSidebarOpen,
         'translate-x-0': isSidebarOpen,

@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="bg-black">
     <div class="container mx-auto px-4">
-      <div class="flex items-center justify-between py-3">
+      <div class="flex items-center justify-around py-3">
         <div class="flex items-center gap-4">
           <AppSaidBar />
           <button class="flex items-center gap-2">
