@@ -1,9 +1,9 @@
-import { createWebHashHistory, createRouter } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import AppHome from "../components/home/AppHome.vue";
 
 const routes = [
   {
-    path: "/apphome",
+    path: "/",
     name: "AppHome",
     component: AppHome,
   },
