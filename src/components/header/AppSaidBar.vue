@@ -9,22 +9,22 @@
       }"
     >
       <ul class="mt-4 space-y-2 px-4">
-        <router-link to="/apphome">
+        <RouterLink to="/apphome">
           <li
             class="flex items-center gap-3 hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
           >
             <i class="pi pi-home text-xl"></i>
             <span class="text-lg">Главная</span>
           </li>
-        </router-link>
-        <router-link to="/appshorts">
+        </RouterLink>
+        <RouterLink to="/appshorts">
           <li
             class="flex items-center gap-3 hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
           >
             <i class="pi pi-video text-xl"></i>
             <span class="text-lg">Shorts</span>
           </li>
-        </router-link>
+        </RouterLink>
         <li
           class="flex items-center gap-3 hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
         >
@@ -111,8 +111,12 @@
 
 <script>
 import { ref } from "vue";
+import { RouterLink } from "vue-router";
 
 export default {
+  components: {
+    RouterLink,
+  },
   setup() {
     const isSidebarOpen = ref(false);
 
