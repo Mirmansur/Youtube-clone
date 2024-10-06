@@ -4,12 +4,12 @@
       <div
         v-for="(video, index) in videos"
         :key="index"
-        class="w-80 bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-700"
+        class="w-80 bg-black rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:bg-black"
       >
         <img
           :src="video.thumbnail"
           alt="Video thumbnail"
-          class="w-full h-44 object-cover"
+          class="w-full h-44 rounded-lg"
         />
         <div class="p-4">
           <h3 class="text-lg font-semibold mb-2">{{ video.title }}</h3>

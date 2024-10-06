@@ -14,7 +14,7 @@
           <input
             type="text"
             placeholder="Введите запрос"
-            class="w-full p-2.5 bg-gray-900 text-white rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-600"
+            class="w-full p-2.5 bg-black text-white rounded-l-full focus:outline-none focus:ring-2 borderb border-gray-600"
           />
           <button
             class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-r-full transition-all duration-200"
