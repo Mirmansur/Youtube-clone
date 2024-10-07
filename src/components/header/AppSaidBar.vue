@@ -15,7 +15,6 @@
           >
             <i class="pi pi-home text-xl"></i>
             <span v-if="isSidebarOpen" class="text-lg">Главная</span>
-            <!-- Faqat ochilganda matn -->
           </li>
         </router-link>
         <router-link to="/appshorts">

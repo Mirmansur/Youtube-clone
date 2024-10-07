@@ -1,10 +1,10 @@
 <template>
-  <div class="p-4 bg-black min-h-screen text-white">
+  <div class="p-10 bg-black min-h-screen text-white mt-14">
     <div class="flex flex-wrap gap-4 justify-center">
       <div
         v-for="(video, index) in videos"
         :key="index"
-        class="w-80 bg-black rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:bg-black"
+        class="w-96 bg-black rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:bg-black"
       >
         <img
           :src="video.thumbnail"

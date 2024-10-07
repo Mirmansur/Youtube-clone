@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="bg-black">
+  <div class="bg-black fixed top-0 left-0 ring-0 z-10 w-full">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-around py-3">
         <div class="flex items-center gap-4">
