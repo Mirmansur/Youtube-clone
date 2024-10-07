@@ -9,7 +9,7 @@
       }"
     >
       <ul class="mt-4 space-y-2 px-4">
-        <RouterLink to="/apphome">
+        <router-link :to="{ name: 'AppHome' }">
           <li
             class="flex items-center gap-3 hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
           >
@@ -17,15 +17,15 @@
             <span v-if="isSidebarOpen" class="text-lg">Главная</span>
             <!-- Faqat ochilganda matn -->
           </li>
-        </RouterLink>
-        <RouterLink to="/appshorts">
+        </router-link>
+        <router-link to="/appshorts">
           <li
             class="flex items-center gap-3 hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
           >
             <i class="pi pi-video text-xl"></i>
             <span v-if="isSidebarOpen" class="text-lg">Shorts</span>
           </li>
-        </RouterLink>
+        </router-link>
         <li
           class="flex items-center gap-3 hover:bg-gray-800 p-2 rounded-lg cursor-pointer transition-all"
         >
