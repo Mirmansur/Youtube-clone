@@ -1,17 +1,14 @@
 <template lang="html">
   <div class="p-6 bg-black min-h-screen text-white flex flex-col items-center">
-    <!-- Main video area -->
     <div class="w-full max-w-screen-lg">
       <h1 class="text-3xl font-bold mb-4">{{ video.title }}</h1>
 
-      <!-- Video thumbnail -->
       <div class="relative w-full h-64 md:h-80 mb-4 overflow-hidden">
         <img
           :src="video.thumbnail"
           alt="Video thumbnail"
           class="w-full h-full object-cover rounded-md"
         />
-        <!-- Optional NmaGap logo on top (if needed) -->
         <div
           class="absolute top-4 left-4 bg-red-600 text-white px-2 py-1 rounded-md text-sm"
         >
@@ -19,7 +16,6 @@
         </div>
       </div>
 
-      <!-- Video details (channel, views, etc.) -->
       <div class="flex justify-between items-center mb-4">
         <div>
           <p class="text-lg text-gray-300">{{ video.channel }}</p>
@@ -29,10 +25,8 @@
         </div>
       </div>
 
-      <!-- Description (if needed) -->
       <p class="text-base mb-6">{{ video.description }}</p>
 
-      <!-- Like and share buttons -->
       <div class="flex items-center gap-4 mb-6">
         <button
           class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
