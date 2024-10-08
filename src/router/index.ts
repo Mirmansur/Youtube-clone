@@ -12,6 +12,11 @@ const routes = [
     name: "AppShorts",
     component: () => import("../components/shorts/AppShorts.vue"),
   },
+  {
+    path: "/appsingle/:id",
+    name: "AppSingle",
+    component: () => import("../components/single/AppSingle.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -4,17 +4,19 @@
       <div class="flex items-center justify-around py-3">
         <div class="flex items-center gap-4">
           <AppSaidBar />
-          <button class="flex items-center gap-2">
-            <i class="pi pi-youtube text-red-600 text-4xl"></i>
-            <h1 class="text-white text-2xl font-bold">YouTube</h1>
-          </button>
+          <router-link to="/"
+            ><button class="flex items-center gap-2">
+              <i class="pi pi-youtube text-red-600 text-4xl"></i>
+              <h1 class="text-white text-2xl font-bold">YouTube</h1>
+            </button></router-link
+          >
         </div>
 
         <div class="flex items-center w-full max-w-2xl mx-4">
           <input
             type="text"
             placeholder="Введите запрос"
-            class="w-full p-2.5 bg-black text-white rounded-l-full focus:outline-none focus:ring-2 borderb border-gray-600"
+            class="w-full p-2.5 bg-black text-white rounded-l-full focus:outline-none focus:ring-2 border border-gray-600"
           />
           <button
             class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-r-full transition-all duration-200"
