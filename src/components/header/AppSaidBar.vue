@@ -1,11 +1,10 @@
 <template>
   <div class="relative">
-    <!-- Sidebar -->
     <div
       class="fixed top-16 left-0 h-full bg-black text-white shadow-lg transition-all duration-500 ease-in-out z-50"
       :class="{
-        'w-16': !isSidebarOpen /* Yopiq holda kichik kenglik */,
-        'w-60': isSidebarOpen /* Ochilgan holda to'liq kenglik */,
+        'w-16': !isSidebarOpen,
+        'w-60': isSidebarOpen,
       }"
     >
       <ul class="mt-4 space-y-2 px-4">
