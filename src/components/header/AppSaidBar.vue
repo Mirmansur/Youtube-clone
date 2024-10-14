@@ -66,7 +66,6 @@
       </ul>
     </div>
 
-    <!-- Toggle Button -->
     <button
       @click="toggleSidebar"
       class="hover:bg-gray-700 rounded-full p-2 transition-all duration-200"

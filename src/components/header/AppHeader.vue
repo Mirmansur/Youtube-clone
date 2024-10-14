@@ -59,11 +59,23 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import AppSaidBar from "./AppSaidBar.vue";
 
 export default {
   components: {
     AppSaidBar,
+  },
+  setup() {
+    const store = useStore();
+    const isSidebarOpen = computed(() => store.state.isSidebarOpen);
+
+    const toggleSidebar = () => {
+      store.commit("SET_SIDEBAR_OPEN", !isSidebarOpen.value);
+    };
+
+    return { isSidebarOpen, toggleSidebar };
   },
 };
 </script>

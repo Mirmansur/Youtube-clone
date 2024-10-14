@@ -81,46 +81,23 @@ export default {
     const route = useRoute();
     const videoId = route.params.id;
 
-    const videos = ref([
-      {
-        id: 1,
-        thumbnail: "https://via.placeholder.com/320x180?text=Video+1",
-        title: "OYOG'IM YERTILIB KETGANIDAN BOSHQA YURA OLMAYMAN! 21-22 KUN",
-        channel: "ISOMTV",
-        views: "51k views",
-        time: "2 hours ago",
-        description: "Bu video haqida batafsil ma'lumot kiritilishi mumkin...",
-      },
-      {
-        id: 2,
-        thumbnail: "https://via.placeholder.com/320x180?text=Video+2",
-        title: "Shakar - ommaviy narkotik. Shakarsiz 30 kun!",
-        channel: "Maqsad",
-        views: "966k views",
-        time: "1 year ago",
-        description: "Shakar haqida to'liq ma'lumot kiritish mumkin...",
-      },
-      {
-        id: 3,
-        thumbnail: "https://via.placeholder.com/320x180?text=Video+3",
-        title: "БЕДНЫЙ vs БОГАТЫЙ СТУДЕНТ",
-        channel: "A4",
-        views: "67M views",
-        time: "2 years ago",
-        description: "Bu yerda qiziqarli faktlar mavjud...",
-      },
-      {
-        id: 4,
-        thumbnail: "https://via.placeholder.com/320x180?text=Video+4",
-        title:
-          "Веном 3 - разбор сюжета и сцены после титров. План Кнала раскрыт!",
-        channel: "Axis Comics",
-        views: "6.2k views",
-        time: "3 hours ago",
-        description: "Bu video Venom 3 filmi haqida...",
-      },
-    ]);
-
+    async function fetchVideos() {
+      try {
+        const response = await fetch("https://yt-api.p.rapidapi.com/trending", {
+          headers: {
+            "x-rapidapi-key":
+              "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559",
+            "x-rapidapi-host": "yt-api.p.rapidapi.com",
+          },
+        });
+        const data = await response.json();
+        AllData.videos = data?.data || [];
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      } finally {
+        loading.value = false;
+      }
+    }
     const video = videos.value.find((v) => v.id === parseInt(videoId));
 
     return { video };

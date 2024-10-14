@@ -16,7 +16,8 @@
     "primeicons": "^7.0.0",
     "vue": "^3.4.29",
     "vue-router": "^4.0.13",
-    "vue3-carousel": "^0.3.4"
+    "vue3-carousel": "^0.3.4",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
