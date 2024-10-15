@@ -1,11 +1,13 @@
 <template lang="html">
   <div class="p-6 bg-black min-h-screen text-white flex flex-col items-center">
     <div class="w-full max-w-screen-lg">
-      <h1 class="text-3xl font-bold mb-4">{{ video.title }}</h1>
+      <h1 class="text-3xl font-bold mb-4">
+        {{ video?.title || "Loading..." }}
+      </h1>
 
       <div class="relative w-full h-64 md:h-80 mb-4 overflow-hidden">
         <img
-          :src="video.thumbnail"
+          :src="video?.thumbnail"
           alt="Video thumbnail"
           class="w-full h-full object-cover rounded-md"
         />
@@ -18,14 +20,14 @@
 
       <div class="flex justify-between items-center mb-4">
         <div>
-          <p class="text-lg text-gray-300">{{ video.channel }}</p>
+          <p class="text-lg text-gray-300">{{ video?.channel }}</p>
           <p class="text-sm text-gray-500">
-            {{ video.views }} • {{ video.time }}
+            {{ video?.views }} • {{ video?.time }}
           </p>
         </div>
       </div>
 
-      <p class="text-base mb-6">{{ video.description }}</p>
+      <p class="text-base mb-6">{{ video?.description }}</p>
 
       <div class="flex items-center gap-4 mb-6">
         <button
@@ -60,7 +62,9 @@
             class="w-full h-32 object-cover"
           />
           <div class="p-3">
-            <h3 class="text-lg font-semibold mb-2">{{ similarVideo.title }}</h3>
+            <h3 class="text-lg font-semibold mb-2">
+              {{ similarVideo.title }}
+            </h3>
             <p class="text-sm text-gray-400">{{ similarVideo.channel }}</p>
             <p class="text-xs text-gray-500">
               {{ similarVideo.views }} • {{ similarVideo.time }}
@@ -72,16 +76,20 @@
   </div>
 </template>
 
+---
+
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
   setup() {
     const route = useRoute();
     const videoId = route.params.id;
+    const video = ref(null);
+    const similarVideos = ref([]);
 
-    async function fetchVideos() {
+    const fetchVideoData = async () => {
       try {
         const response = await fetch("https://yt-api.p.rapidapi.com/trending", {
           headers: {
@@ -90,19 +98,28 @@ export default {
             "x-rapidapi-host": "yt-api.p.rapidapi.com",
           },
         });
+
         const data = await response.json();
-        AllData.videos = data?.data || [];
+        const videos = data?.data || [];
+        video.value = videos.find((v) => v.id === parseInt(videoId));
+        similarVideos.value = videos.filter((v) => v.id !== parseInt(videoId));
       } catch (error) {
         console.error("Error fetching videos:", error);
-      } finally {
-        loading.value = false;
       }
-    }
-    const video = videos.value.find((v) => v.id === parseInt(videoId));
+    };
 
-    return { video };
+    onMounted(fetchVideoData);
+
+    return {
+      video,
+      similarVideos,
+    };
   },
 };
 </script>
 
-<style scoped></style>
+---
+
+<style scoped>
+/* Qo'shimcha kerakli stylingni bu yerda qilishingiz mumkin */
+</style>
