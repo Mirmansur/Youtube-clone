@@ -1,71 +1,15 @@
-<template>
-  <div class="bg-black min-h-screen text-white flex flex-col items-center">
-    <!-- Main video section -->
-    <div class="w-full max-w-screen-xl flex mt-10">
-      <!-- Video player -->
-      <div class="flex-1">
-        <div class="aspect-w-16 aspect-h-9 bg-gray-800">
-          <!-- Video iframe or image placeholder -->
-          <iframe
-            class="w-full h-full"
-            :src="`https://www.youtube.com/embed/${videoId}`"
-            title="Video player"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        </div>
-
-        <!-- Video details -->
-        <div class="mt-4 px-4">
-          <h2 class="text-2xl font-bold mb-2">{{ video?.title }}</h2>
-          <p class="text-sm text-gray-400 mb-4">
-            {{ video?.viewCount }} views •
-            {{ formatTime(video?.lengthSeconds) }}
-          </p>
-          <p class="text-sm text-gray-300">{{ video?.description }}</p>
-        </div>
-      </div>
-
-      <!-- Related videos section -->
-      <div class="w-96 ml-8 hidden md:block">
-        <h3 class="text-lg font-semibold mb-4">Related Videos</h3>
-        <div class="space-y-4">
-          <div
-            v-for="related in similarVideos"
-            :key="related.id"
-            class="flex gap-4 items-start"
-          >
-            <img
-              :src="related.thumbnail?.[0]?.url || defaultImage"
-              alt="Related video thumbnail"
-              class="w-32 h-20 object-cover"
-            />
-            <div class="flex-1">
-              <h4 class="text-sm font-semibold">
-                {{ related.title }}
-              </h4>
-              <p class="text-xs text-gray-400">
-                {{ related.channelTitle }} • {{ related.viewCount }} views
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
+  components: {},
   setup() {
     const route = useRoute();
     const videoId = route.params.id;
     const video = ref(null);
     const similarVideos = ref([]);
-    const defaultImage = "path-to-default-image.jpg"; // Default image path
+    const defaultImage = "path-to-default-image.jpg";
 
     const fetchVideoData = () => {
       const xhr = new XMLHttpRequest();
@@ -76,6 +20,8 @@ export default {
           try {
             const response = JSON.parse(this.responseText);
             video.value = response?.data || response;
+            console.log(response);
+
             similarVideos.value =
               response?.data?.similar || response.similar || [];
           } catch (error) {
@@ -114,12 +60,66 @@ export default {
 };
 </script>
 
+<template>
+  <div class="Alll">
+    <div class="bg-black min-h-screen text-white flex flex-col items-center">
+      <div class="w-full max-w-screen-xl flex mt-10">
+        <div class="flex-1">
+          <div class="aspect-w-16 aspect-h-9 bg-gray-800">
+            <iframe
+              class="w-full h-full"
+              :src="`https://www.youtube.com/embed/${videoId}`"
+              title="Video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div class="mt-4 px-4">
+            <h2 class="text-2xl font-bold mb-2">{{ video?.title }}</h2>
+            <p class="text-sm text-gray-400 mb-4">
+              {{ video?.viewCount }} views •
+              {{ formatTime(video?.lengthSeconds) }}
+            </p>
+            <p class="text-sm text-gray-300">{{ video?.description }}</p>
+          </div>
+        </div>
+
+        <div class="w-96 ml-8 hidden md:block">
+          <h3 class="text-lg font-semibold mb-4">Related Videos</h3>
+          <div class="space-y-4">
+            <div
+              v-for="related in similarVideos"
+              :key="related.id"
+              class="flex gap-4 items-start"
+            >
+              <img
+                :src="related.thumbnail?.[2]?.url || defaultImage"
+                alt="Related video thumbnail"
+                class="w-32 h-20 object-cover"
+              />
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold">
+                  {{ related.title }}
+                </h4>
+                <p class="text-xs text-gray-400">
+                  {{ related.channelTitle }} • {{ related.viewCount }} views
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-/* Make sure video iframe is responsive */
 .aspect-w-16 {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  padding-bottom: 56.25%;
 }
 
 .aspect-w-16 iframe {
