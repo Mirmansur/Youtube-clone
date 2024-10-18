@@ -3,13 +3,15 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
-  components: {},
   setup() {
     const route = useRoute();
     const videoId = route.params.id;
     const video = ref(null);
     const similarVideos = ref([]);
     const defaultImage = "path-to-default-image.jpg";
+
+    console.log("Route params:", route.params);
+    console.log("Video ID:", videoId);
 
     const fetchVideoData = () => {
       const xhr = new XMLHttpRequest();
@@ -51,6 +53,7 @@ export default {
     };
 
     return {
+      videoId,
       video,
       similarVideos,
       defaultImage,
