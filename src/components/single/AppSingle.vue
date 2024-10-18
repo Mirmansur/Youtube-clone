@@ -9,7 +9,9 @@ export default {
     const video = ref(null);
     const similarVideos = ref([]);
     const defaultImage = "path-to-default-image.jpg";
-
+    const comments = ref([]);
+    const loading = ref(true);
+    const error = ref(null);
     console.log("Route params:", route.params);
     console.log("Video ID:", videoId);
 
@@ -41,8 +43,34 @@ export default {
 
       xhr.send(null);
     };
+    const fetchComments = () => {
+      const xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          loading.value = false;
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            comments.value = response.data || [];
+          } else {
+            error.value = "Failed to load comments";
+          }
+        }
+      });
+
+      xhr.open("GET", `https://yt-api.p.rapidapi.com/comments?id=${videoId}`);
+      xhr.setRequestHeader(
+        "x-rapidapi-key",
+        "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559"
+      );
+      xhr.setRequestHeader("x-rapidapi-host", "yt-api.p.rapidapi.com");
+
+      xhr.send();
+    };
 
     onMounted(fetchVideoData);
+    onMounted(fetchComments);
 
     const formatTime = (seconds) => {
       const minutes = Math.floor(seconds / 60);
@@ -58,6 +86,9 @@ export default {
       similarVideos,
       defaultImage,
       formatTime,
+      comments,
+      loading,
+      error,
     };
   },
 };
@@ -66,7 +97,7 @@ export default {
 <template>
   <div class="Alll">
     <div class="bg-black min-h-screen text-white flex flex-col items-center">
-      <div class="w-full max-w-screen-xl flex mt-10">
+      <div class="w-full max-w-screen-xl flex mt-20">
         <div class="flex-1">
           <div class="aspect-w-16 aspect-h-9 bg-gray-800">
             <iframe
@@ -113,6 +144,17 @@ export default {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold mb-4">Comments</h1>
+        <div v-if="loading">Loading comments...</div>
+        <div v-if="error" class="text-red-500">{{ error }}</div>
+        <ul v-if="comments.length">
+          <li v-for="(comment, index) in comments" :key="index" class="mb-4">
+            <p class="font-semibold">{{ comment.author }}</p>
+            <p>{{ comment.text }}</p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
