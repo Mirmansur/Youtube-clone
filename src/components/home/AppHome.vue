@@ -2,8 +2,7 @@
   <div
     class="min-h-screen bg-black text-white flex items-center justify-center p-6"
   >
-    <div class="w-full max-w-7xl">
-      <!-- Filterlar qismi -->
+    <div class="w-full max-w-7xl mt-10">
       <div class="mb-6 overflow-x-auto">
         <Carousel :items-to-show="7" wrap-around class="flex gap-2">
           <Slide v-for="(filter, index) in filters" :key="index">
@@ -100,6 +99,8 @@ export default {
           },
         });
         const data = await response.json();
+        console.log(data);
+
         AllData.videos = data?.data || [];
       } catch (error) {
         console.error("Error fetching videos:", error);
