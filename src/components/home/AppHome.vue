@@ -60,7 +60,6 @@ import { onMounted, reactive, ref, computed } from "vue";
 import { RouterLink } from "vue-router";
 import { Carousel, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
-
 export default {
   components: {
     Carousel,
