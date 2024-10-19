@@ -54,7 +54,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { onMounted, reactive, ref, computed } from "vue";
 import { RouterLink } from "vue-router";
@@ -81,13 +80,11 @@ export default {
       "Komediya",
       "Kinolar",
     ]);
-
     const AllData = reactive({ videos: [] });
     const selectedFilter = ref("Hammasi");
     const loading = ref(true);
     const defaultImage =
       "https://media.istockphoto.com/id/1452662817/tr/vekt%C3%B6r/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=gjZN1wPOkEsxCCKjSIBBCVOAIoWVA_z26ougAPUAB7Q=";
-
     async function fetchVideos() {
       try {
         const response = await fetch("https://yt-api.p.rapidapi.com/trending", {
@@ -107,22 +104,18 @@ export default {
         loading.value = false;
       }
     }
-
     const filteredVideos = computed(() =>
       selectedFilter.value === "Hammasi"
         ? AllData.videos
         : AllData.videos.filter((video) => video.type === selectedFilter.value)
     );
-
     onMounted(() => {
       fetchVideos();
     });
-
     return { filters, selectedFilter, filteredVideos, loading, defaultImage };
   },
 };
 </script>
-
 <style scoped>
 body {
   overflow-x: hidden;

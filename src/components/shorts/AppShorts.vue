@@ -40,9 +40,7 @@ export default {
       const xhr = new XMLHttpRequest();
       const videoId = "jOcyYhsc1mA";
       const apiKey = "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559";
-
       xhr.withCredentials = true;
-
       xhr.addEventListener("readystatechange", () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
@@ -60,20 +58,17 @@ export default {
           }
         }
       });
-
       xhr.open(
         "GET",
         `https://yt-api.p.rapidapi.com/shorts/info?id=${videoId}`
       );
       xhr.setRequestHeader("x-rapidapi-key", apiKey);
       xhr.setRequestHeader("x-rapidapi-host", "yt-api.p.rapidapi.com");
-
       xhr.send(null);
     },
   },
 };
 </script>
-
 <style>
 body {
   background-color: #1a1a1a;
