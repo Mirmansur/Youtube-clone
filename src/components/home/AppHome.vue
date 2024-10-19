@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-black text-white flex items-center justify-center p-6"
+    class="min-h-screen bg-black text-white flex items-center justify-center p-6 pl-20"
   >
     <div class="w-full max-w-7xl mt-10">
       <div class="mb-6 overflow-x-auto">
