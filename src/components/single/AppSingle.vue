@@ -52,6 +52,8 @@ export default {
           loading.value = false;
           if (xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
+            console.log(response);
+
             comments.value = response.data || [];
           } else {
             error.value = "Failed to load comments";
