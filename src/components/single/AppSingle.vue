@@ -40,9 +40,7 @@
                 class="w-32 h-20 object-cover"
               />
               <div class="flex-1">
-                <h4 class="text-sm font-semibold">
-                  {{ related.title }}
-                </h4>
+                <h4 class="text-sm font-semibold">{{ related.title }}</h4>
                 <p class="text-xs text-gray-400">
                   {{ related.channelTitle }} • {{ related.viewCount }} views
                 </p>
@@ -51,70 +49,23 @@
           </div>
         </div>
       </div>
-      <div>
+
+      <!-- Comment Section -->
+      <div class="mt-8 px-4">
         <h1 class="text-2xl font-bold mb-4">Comments</h1>
-        <div v-if="loading">Loading comments...</div>
+        <div v-if="loading" class="text-gray-400">Izohlar yuklanmoqda...</div>
         <div v-if="error" class="text-red-500">{{ error }}</div>
         <ul v-if="comments.length">
-          <li v-for="(comment, index) in comments" :key="index" class="mb-4">
+          <li
+            v-for="(comment, index) in comments"
+            :key="index"
+            class="mb-4 text-white"
+          >
             <p class="font-semibold">{{ comment.author }}</p>
             <p>{{ comment.text }}</p>
           </li>
         </ul>
-      </div>
-    </div>
-    <div class="bg-black text-white flex flex-col">
-      <div class="w-full max-w-7xl mt-10">
-        <div class="mb-6 overflow-x-auto">
-          <Carousel :items-to-show="7" wrap-around class="flex gap-2">
-            <Slide v-for="(filter, index) in filters" :key="index">
-              <button
-                @click="selectedFilter = filter"
-                :class="{
-                  'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-black':
-                    selectedFilter === filter,
-                  'bg-gray-800 text-gray-200': selectedFilter !== filter,
-                }"
-                class="px-4 py-2 rounded-full shadow-lg hover:bg-gray-700 transition"
-              >
-                {{ filter }}
-              </button>
-            </Slide>
-          </Carousel>
-        </div>
-
-        <div v-if="loading" class="text-center">
-          <p>Loading videos...</p>
-        </div>
-
-        <div
-          v-else
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
-          <div
-            v-for="(video, index) in filteredVideos"
-            :key="index"
-            class="bg-gray-900 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:bg-gray-800"
-          >
-            <router-link :to="`/appsingle/${video.videoId}`" class="block">
-              <img
-                :src="video?.thumbnail ? video.thumbnail[2]?.url : defaultImage"
-                alt="Video thumbnail"
-                class="w-full h-48 object-cover"
-              />
-              <div class="p-4">
-                <h3 class="text-lg font-semibold truncate">
-                  {{ video?.title }}
-                </h3>
-                <p class="text-gray-400 text-sm">{{ video?.channelTitle }}</p>
-                <p class="text-gray-500 text-sm">
-                  {{ video?.viewCount }} views • {{ video?.publishDate }}
-                </p>
-                <p class="text-gray-600 text-xs">{{ video?.lengthText }}</p>
-              </div>
-            </router-link>
-          </div>
-        </div>
+        <div v-else-if="!loading" class="text-gray-400">Izohlar topilmadi</div>
       </div>
     </div>
   </div>
@@ -134,6 +85,7 @@ export default {
     const comments = ref([]);
     const loading = ref(true);
     const error = ref(null);
+
     console.log("Route params:", route.params);
     console.log("Video ID:", videoId);
 
@@ -146,8 +98,6 @@ export default {
           try {
             const response = JSON.parse(this.responseText);
             video.value = response?.data || response;
-            console.log(response);
-
             similarVideos.value =
               response?.data?.similar || response.similar || [];
           } catch (error) {
@@ -162,23 +112,27 @@ export default {
         "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559"
       );
       xhr.setRequestHeader("x-rapidapi-host", "yt-api.p.rapidapi.com");
-
       xhr.send(null);
     };
+
     const fetchComments = () => {
       const xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
+      xhr.withCredentials = false;
 
       xhr.addEventListener("readystatechange", () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           loading.value = false;
           if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            console.log(response);
-
-            comments.value = response.data || [];
+            try {
+              const response = JSON.parse(xhr.responseText);
+              console.log("Comments response:", response);
+              comments.value = response?.comments || response?.data || [];
+            } catch (err) {
+              console.error("Parsing error:", err);
+              error.value = "Failed to parse comments data.";
+            }
           } else {
-            error.value = "Failed to load comments";
+            error.value = `Failed to load comments: ${xhr.status} - ${xhr.statusText}`;
           }
         }
       });
@@ -189,7 +143,6 @@ export default {
         "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559"
       );
       xhr.setRequestHeader("x-rapidapi-host", "yt-api.p.rapidapi.com");
-
       xhr.send();
     };
 
