@@ -53,38 +53,48 @@
       <!-- Comment Section -->
       <div class="mt-8 px-4">
         <h1 class="text-2xl font-bold mb-4">Comments</h1>
+
         <div v-if="loading" class="text-gray-400">Izohlar yuklanmoqda...</div>
+
         <div v-if="error" class="text-red-500">{{ error }}</div>
-        <ul v-if="comments.length">
-          <li
-            v-for="(comment, index) in comments"
-            :key="index"
-            class="mb-4 text-white"
-          >
-            <p class="font-semibold">{{ comment.author }}</p>
-            <p>{{ comment.text }}</p>
+
+        <ul v-if="comments.length > 0" class="text-white">
+          <li v-for="comment in comments" :key="comment.commentId" class="mb-4">
+            <p class="font-semibold">{{ comment.authorText }}</p>
+            <p>{{ comment.textDisplay }}</p>
+            <p class="text-xs text-gray-400">Likes: {{ comment.likesCount }}</p>
+            <p class="text-xs text-gray-400">
+              Published: {{ new Date(comment.publishedAt).toLocaleString() }}
+            </p>
           </li>
         </ul>
-        <div v-else-if="!loading" class="text-gray-400">Izohlar topilmadi</div>
+
+        <div v-else class="text-gray-400">Hozircha izohlar yo‘q</div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-
+interface Comment {
+  authorText: string;
+  commentId: string;
+  likesCount: string;
+  publishedAt: string;
+  textDisplay: string;
+}
 export default {
   setup() {
     const route = useRoute();
-    const videoId = route.params.id;
     const video = ref(null);
     const similarVideos = ref([]);
     const defaultImage = "path-to-default-image.jpg";
-    const comments = ref([]);
+    const videoId = route.params.id;
+    const comments = ref<Comment[]>([]);
     const loading = ref(true);
-    const error = ref(null);
+    const error = ref<string | null>(null);
 
     console.log("Route params:", route.params);
     console.log("Video ID:", videoId);
@@ -126,7 +136,16 @@ export default {
             try {
               const response = JSON.parse(xhr.responseText);
               console.log("Comments response:", response);
-              comments.value = response?.comments || response?.data || [];
+
+              // To‘g‘ri kalitlardan foydalanib ma'lumotni olish
+              comments.value =
+                response?.comments?.map((c: any) => ({
+                  authorText: c.authorText,
+                  commentId: c.commentId,
+                  likesCount: c.likesCount,
+                  publishedAt: c.publishedAt,
+                  textDisplay: c.textDisplay,
+                })) || [];
             } catch (err) {
               console.error("Parsing error:", err);
               error.value = "Failed to parse comments data.";
