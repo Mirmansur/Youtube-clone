@@ -50,7 +50,6 @@
         </div>
       </div>
 
-      <!-- Comment Section -->
       <div class="mt-8 px-4">
         <h1 class="text-2xl font-bold mb-4">Comments</h1>
 

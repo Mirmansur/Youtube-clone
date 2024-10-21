@@ -15,25 +15,23 @@
         <div
           class="flex items-center w-full max-w-full md:max-w-2xl mx-4 mt-3 md:mt-0"
         >
-          <input
-            type="text"
-            placeholder="Введите запрос"
-            class="w-full p-2 bg-black text-white rounded-l-full focus:outline-none focus:ring-2 border border-gray-600"
-          />
+          <form action="" class="flex w-full">
+            <input
+              type="text"
+              placeholder="Введите запрос"
+              class="w-full p-2 bg-black text-white rounded-l-full focus:outline-none focus:ring-2 border border-gray-600"
+            />
+            <button
+              class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-r-full transition-all duration-200"
+            >
+              <i class="pi pi-search text-white"></i>
+            </button>
+          </form>
+
           <button
-            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-r-full transition-all duration-200"
+            class="bg-gray-700 hover:bg-gray-600 rounded-full transition-all duration-200 ml-2"
           >
-            <i class="pi pi-keyboard text-white"></i>
-          </button>
-          <button
-            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full transition-all duration-200 ml-2 hidden md:block"
-          >
-            <i class="pi pi-search text-white"></i>
-          </button>
-          <button
-            class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-full transition-all duration-200 ml-2"
-          >
-            <i class="pi pi-microphone text-white"></i>
+            <i class="pi pi-microphone text-white p-3 text-2xl"></i>
           </button>
         </div>
 
@@ -42,15 +40,15 @@
             class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm md:text-base"
           >
             <i class="pi pi-plus text-white"></i>
-            <span class="text-white hidden md:block">Создать</span>
+            <span class="text-white hidden md:block text-xl">Создать</span>
           </button>
           <button
-            class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-200"
+            class="hover:bg-gray-600 p-2 rounded-full transition-all duration-200"
           >
             <i class="pi pi-bell text-lg md:text-xl text-white"></i>
           </button>
           <button
-            class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full transition-all duration-200"
+            class="hover:bg-gray-700 p-2 rounded-full transition-all duration-200"
           >
             <i class="pi pi-user text-lg md:text-xl text-white"></i>
           </button>
