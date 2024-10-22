@@ -51,19 +51,61 @@
       </div>
 
       <div class="mt-8 px-4">
-        <h1 class="text-2xl font-bold mb-4">Comments</h1>
+        <h1 class="text-2xl font-bold mb-4">Izohlar</h1>
 
         <div v-if="loading" class="text-gray-400">Izohlar yuklanmoqda...</div>
         <div v-if="error" class="text-red-500">{{ error }}</div>
 
-        <ul v-if="comments.length > 0" class="text-white">
-          <li v-for="(comment, index) in comments" :key="index" class="mb-4">
-            <p class="font-semibold">{{ comment.authorText }}</p>
-            <p>{{ comment.textDisplay }}</p>
-            <p class="text-xs text-gray-400">Likes: {{ comment.likesCount }}</p>
-            <p class="text-xs text-gray-400">
-              Published: {{ new Date(comment.publishedAt).toLocaleString() }}
-            </p>
+        <ul v-if="comments.length > 0" class="space-y-6">
+          <li
+            v-for="(comment, index) in comments"
+            :key="index"
+            class="flex gap-4"
+          >
+            <div class="w-12 h-12 rounded-full bg-gray-600 flex-shrink-0">
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Profil rasmi"
+                class="w-full h-full object-cover rounded-full"
+              />
+            </div>
+
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <p class="text-sm font-semibold">{{ comment.authorText }}</p>
+                <span class="text-xs text-gray-400">
+                  {{ new Date(comment.publishedAt).toLocaleString() }}
+                </span>
+              </div>
+
+              <p class="text-sm mt-1 text-gray-300">
+                {{ comment.textDisplay }}
+              </p>
+
+              <div class="flex items-center gap-4 mt-2">
+                <div class="flex items-center gap-1 text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M14 9l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <span class="text-xs">{{ comment.likesCount }}</span>
+                </div>
+
+                <button class="text-xs text-blue-400 hover:underline">
+                  Javob berish
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
 
@@ -74,9 +116,9 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import axios from "axios";
 
 interface Comment {
   authorText: string;
