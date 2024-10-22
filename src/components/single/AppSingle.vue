@@ -54,11 +54,10 @@
         <h1 class="text-2xl font-bold mb-4">Comments</h1>
 
         <div v-if="loading" class="text-gray-400">Izohlar yuklanmoqda...</div>
-
         <div v-if="error" class="text-red-500">{{ error }}</div>
 
         <ul v-if="comments.length > 0" class="text-white">
-          <li v-for="comment in comments" :key="comment.commentId" class="mb-4">
+          <li v-for="(comment, index) in comments" :key="index" class="mb-4">
             <p class="font-semibold">{{ comment.authorText }}</p>
             <p>{{ comment.textDisplay }}</p>
             <p class="text-xs text-gray-400">Likes: {{ comment.likesCount }}</p>
@@ -75,8 +74,10 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+
 interface Comment {
   authorText: string;
   commentId: string;
@@ -84,90 +85,73 @@ interface Comment {
   publishedAt: string;
   textDisplay: string;
 }
+
 export default {
   setup() {
     const route = useRoute();
+    const videoId = route.params.id as string;
     const video = ref(null);
     const similarVideos = ref([]);
-    const defaultImage = "path-to-default-image.jpg";
-    const videoId = route.params.id;
     const comments = ref<Comment[]>([]);
     const loading = ref(true);
     const error = ref<string | null>(null);
+    const defaultImage = "path-to-default-image.jpg";
 
-    console.log("Route params:", route.params);
-    console.log("Video ID:", videoId);
-
-    const fetchVideoData = () => {
-      const xhr = new XMLHttpRequest();
-      xhr.withCredentials = false;
-
-      xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-          try {
-            const response = JSON.parse(this.responseText);
-            video.value = response?.data || response;
-            similarVideos.value =
-              response?.data?.similar || response.similar || [];
-          } catch (error) {
-            console.error("Error processing data:", error);
+    const fetchVideoData = async () => {
+      try {
+        const response = await axios.get(
+          `https://yt-api.p.rapidapi.com/video/info?id=${videoId}`,
+          {
+            headers: {
+              "x-rapidapi-key":
+                "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559",
+              "x-rapidapi-host": "yt-api.p.rapidapi.com",
+            },
           }
-        }
-      });
-
-      xhr.open("GET", `https://yt-api.p.rapidapi.com/video/info?id=${videoId}`);
-      xhr.setRequestHeader(
-        "x-rapidapi-key",
-        "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559"
-      );
-      xhr.setRequestHeader("x-rapidapi-host", "yt-api.p.rapidapi.com");
-      xhr.send(null);
+        );
+        video.value = response.data;
+        similarVideos.value = response.data.similar || [];
+      } catch (err) {
+        console.error("Video data loading error:", err);
+        error.value = "Video ma'lumotlarini yuklab bo'lmadi.";
+      }
     };
 
-    const fetchComments = () => {
-      const xhr = new XMLHttpRequest();
-      xhr.withCredentials = false;
-
-      xhr.addEventListener("readystatechange", () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          loading.value = false;
-          if (xhr.status === 200) {
-            try {
-              const response = JSON.parse(xhr.responseText);
-              console.log("Comments response:", response);
-
-              // To‘g‘ri kalitlardan foydalanib ma'lumotni olish
-              comments.value =
-                response?.comments?.map((c: any) => ({
-                  authorText: c.authorText,
-                  commentId: c.commentId,
-                  likesCount: c.likesCount,
-                  publishedAt: c.publishedAt,
-                  textDisplay: c.textDisplay,
-                })) || [];
-            } catch (err) {
-              console.error("Parsing error:", err);
-              error.value = "Failed to parse comments data.";
-            }
-          } else {
-            error.value = `Failed to load comments: ${xhr.status} - ${xhr.statusText}`;
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(
+          `https://yt-api.p.rapidapi.com/comments?id=${videoId}`,
+          {
+            headers: {
+              "x-rapidapi-key":
+                "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559",
+              "x-rapidapi-host": "yt-api.p.rapidapi.com",
+            },
           }
-        }
-      });
+        );
 
-      xhr.open("GET", `https://yt-api.p.rapidapi.com/comments?id=${videoId}`);
-      xhr.setRequestHeader(
-        "x-rapidapi-key",
-        "fbc9fa0acdmsh938688ebca90b7dp148bedjsna714ab435559"
-      );
-      xhr.setRequestHeader("x-rapidapi-host", "yt-api.p.rapidapi.com");
-      xhr.send();
+        console.log(response.data.data);
+        comments.value = response.data.data.map((c: any) => ({
+          authorText: c.authorText,
+          commentId: c.commentId,
+          likesCount: c.likesCount,
+          publishedAt: c.publishedAt,
+          textDisplay: c.textDisplay,
+        }));
+      } catch (err) {
+        console.error("Comments loading error:", err);
+        error.value = "Izohlarni yuklab bo'lmadi.";
+      } finally {
+        loading.value = false;
+      }
     };
 
-    onMounted(fetchVideoData);
-    onMounted(fetchComments);
+    onMounted(() => {
+      fetchVideoData();
+      fetchComments();
+    });
 
-    const formatTime = (seconds) => {
+    const formatTime = (seconds: number) => {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
       return `${minutes}:${
@@ -179,11 +163,11 @@ export default {
       videoId,
       video,
       similarVideos,
-      defaultImage,
-      formatTime,
       comments,
       loading,
       error,
+      formatTime,
+      defaultImage,
     };
   },
 };
@@ -205,6 +189,6 @@ export default {
 }
 
 .aspect-h-9 {
-  aspect-ratio: 16/9;
+  aspect-ratio: 16 / 9;
 }
 </style>
