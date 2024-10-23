@@ -16,6 +16,7 @@
 
           <div class="mt-4 px-4">
             <h2 class="text-2xl font-bold mb-2">{{ video?.title }}</h2>
+
             <p class="text-sm text-gray-400 mb-4">
               {{ video?.viewCount }} views •
               {{ formatTime(video?.lengthSeconds) }}
@@ -23,6 +24,30 @@
             <p class="text-sm text-gray-300">
               {{ video?.description?.slice(0, 100) }}
             </p>
+            <div class="flex items-center gap-5 mt-2">
+              <button
+                class="flex items-center border p-2 bg-gray-700 rounded-lg border-none gap-2"
+              >
+                <i class="pi pi-bell text-lg"></i>
+                <span class="text-md font-medium">Подписаться </span>
+              </button>
+              <button
+                class="flex items-center gap-4 bg-gray-700 p-2 rounded-lg"
+              >
+                <i class="pi pi-thumbs-up"></i>
+                |
+                <i class="pi pi-thumbs-down"></i>
+              </button>
+              <button
+                class="flex items-center gap-3 p-2 bg-gray-700 rounded-lg"
+              >
+                <i class="pi pi-download"></i>
+                <span>Cкачать</span>
+              </button>
+              <button class="bg-gray-700 p-2 rounded-lg">
+                <i class="pi pi-ellipsis-h text-md"></i>
+              </button>
+            </div>
           </div>
         </div>
 

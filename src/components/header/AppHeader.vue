@@ -15,13 +15,15 @@
         <div
           class="flex items-center w-full max-w-full md:max-w-2xl mx-4 mt-3 md:mt-0"
         >
-          <form action="" class="flex w-full">
+          <form @submit.prevent="search" class="flex w-full">
             <input
+              v-model="query"
               type="text"
               placeholder="Введите запрос"
               class="w-full p-2 bg-black text-white rounded-l-full focus:outline-none focus:ring-2 border border-gray-600"
             />
             <button
+              type="submit"
               class="bg-gray-700 hover:bg-gray-600 p-2.5 rounded-r-full transition-all duration-200"
             >
               <i class="pi pi-search text-white"></i>
@@ -59,9 +61,10 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import AppSaidBar from "./AppSaidBar.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -70,12 +73,31 @@ export default {
   setup() {
     const store = useStore();
     const isSidebarOpen = computed(() => store.state.isSidebarOpen);
+    const query = ref("");
 
     const toggleSidebar = () => {
       store.commit("SET_SIDEBAR_OPEN", !isSidebarOpen.value);
     };
 
-    return { isSidebarOpen, toggleSidebar };
+    const search = async () => {
+      try {
+        const response = await axios.get(
+          "https://yt-api.p.rapidapi.com/search",
+          {
+            params: { query: query.value },
+            headers: {
+              "x-rapidapi-key": "YOUR_API_KEY",
+              "x-rapidapi-host": "yt-api.p.rapidapi.com",
+            },
+          }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    return { isSidebarOpen, toggleSidebar, query, search };
   },
 };
 </script>
